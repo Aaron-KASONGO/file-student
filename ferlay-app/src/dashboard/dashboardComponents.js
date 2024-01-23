@@ -19,6 +19,7 @@ import SdCardAlertIcon from '@mui/icons-material/SdCardAlert';
 import HistoryIcon from '@mui/icons-material/History';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Avatar, Box, CircularProgress, Typography, useTheme } from '@mui/material';
+import { NavLink } from 'react-router-dom';
 
 export const drawerWidth = 240;
 
@@ -112,26 +113,34 @@ export const DrawerSide = ({open, handleDrawerClose}) => {
             <Divider />
             <List>
             {drawerIcons.map((item, index) => (
-                <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-                <ListItemButton
-                    sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5,
+                <NavLink
+                    to={item.url}
+                    style={{
+                        textDecoration: 'none',
+                        color: 'inherit'
                     }}
                 >
-                    <ListItemIcon
-                    sx={{
-                        minWidth: 0,
-                        mr: open ? 3 : 'auto',
-                        justifyContent: 'center',
-                    }}
-                    >
-                    {item.icon}
-                    </ListItemIcon>
-                    <ListItemText primary={item.title} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-                </ListItem>
+                    <ListItem key={index} disablePadding sx={{ display: 'block' }}>
+                        <ListItemButton
+                            sx={{
+                            minHeight: 48,
+                            justifyContent: open ? 'initial' : 'center',
+                            px: 2.5,
+                            }}
+                        >
+                            <ListItemIcon
+                            sx={{
+                                minWidth: 0,
+                                mr: open ? 3 : 'auto',
+                                justifyContent: 'center',
+                            }}
+                            >
+                            {item.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={item.title} sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
+                    </ListItem>
+                </NavLink>
             ))}
             </List>
             <Divider />
@@ -167,27 +176,33 @@ export const DrawerSide = ({open, handleDrawerClose}) => {
 const drawerIcons = [
     {
         title: "Accueil",
-        icon: <HomeIcon />
+        icon: <HomeIcon />,
+        url: '/'
     },
     {
         title: "Documents",
-        icon: <ArticleIcon />
+        icon: <ArticleIcon />,
+        url: '/documents'
     },
     {
         title: "Dossiers",
-        icon: <FolderIcon />
+        icon: <FolderIcon />,
+        url: '/dossiers'
     },
     {
         title: "Étudiants",
-        icon: <SchoolIcon />
+        icon: <SchoolIcon />,
+        url: '/etudiants'
     },
     {
         title: "Demandes",
-        icon: <SdCardAlertIcon />
+        icon: <SdCardAlertIcon />,
+        url: '/demandes'
     },
     {
         title: "Historique",
-        icon: <HistoryIcon />
+        icon: <HistoryIcon />,
+        url: '/historique'
     }
 ]
 

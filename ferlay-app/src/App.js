@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Outlet, Route, Routes } from "react-router-dom
 import { AccueilComponent } from "./dashboard/accueil/AccueilComponent";
 import Dashboard from "./dashboard/dashbaord";
 import { DemandeComponent } from "./dashboard/demandes/DemandeComponent";
+import { DocumentComponent } from "./dashboard/documents/DocumentComponent";
 import { DossierComponent } from "./dashboard/dossiers/DossierComponent";
 import { EtudiantComponent } from "./dashboard/etudiants/EtudiantComponent";
 import { HistoriqueComponent } from "./dashboard/historique/HistoriqueComponent";
@@ -19,7 +20,7 @@ function App() {
               (
                 <Route path='/' element={<Dashboard />}>
                   <Route index element={<AccueilComponent />} />
-                  <Route path='documents' element={<AccueilComponent />} />
+                  <Route path='documents' element={<DocumentComponent />} />
                   <Route path='dossiers' element={<DossierComponent />} />
                   <Route path='etudiants' element={<EtudiantComponent />} />
                   <Route path='demandes' element={<DemandeComponent />} />
