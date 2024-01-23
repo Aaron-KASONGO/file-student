@@ -18,7 +18,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import SdCardAlertIcon from '@mui/icons-material/SdCardAlert';
 import HistoryIcon from '@mui/icons-material/History';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useTheme } from '@mui/material';
+import { Avatar, Box, CircularProgress, Typography, useTheme } from '@mui/material';
 
 export const drawerWidth = 240;
 
@@ -80,6 +80,35 @@ export const DrawerSide = ({open, handleDrawerClose}) => {
                 {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
             </DrawerHeader>
+            {
+                open && (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            my: 3
+                        }}
+                        >
+                        {
+                            true ? (
+                                <>
+                                <Avatar sx={{
+                                    width: 75,
+                                    height: 75
+                                }} src={'https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} alt='avatar' />
+                                <Box>
+                                    <Typography variant='h6' textAlign='center'>Bismark Biyombo</Typography>
+                                    <Typography variant='subtitle2' textAlign='center'>bismark.biyombo@gmail.com</Typography>
+                                </Box>
+                                </>
+                            ): (
+                            <CircularProgress />
+                            )
+                        }
+                    </Box>
+                )
+            }
             <Divider />
             <List>
             {drawerIcons.map((item, index) => (
