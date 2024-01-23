@@ -1,4 +1,11 @@
 import { BrowserRouter as Router, Outlet, Route, Routes } from "react-router-dom";
+import { AccueilComponent } from "./dashboard/accueil/AccueilComponent";
+import Dashboard from "./dashboard/dashbaord";
+import { DemandeComponent } from "./dashboard/demandes/DemandeComponent";
+import { DossierComponent } from "./dashboard/dossiers/DossierComponent";
+import { EtudiantComponent } from "./dashboard/etudiants/EtudiantComponent";
+import { HistoriqueComponent } from "./dashboard/historique/HistoriqueComponent";
+
 
 function App() {
   return (
@@ -6,14 +13,28 @@ function App() {
       <Router>
         <Routes>
           {
-            (false) ?
+            (true) ?
             (
-              <Route path='/' element={() => <div>connecté</div>} />
+              (true) ?
+              (
+                <Route path='/' element={<Dashboard />}>
+                  <Route index element={<AccueilComponent />} />
+                  <Route path='documents' element={<AccueilComponent />} />
+                  <Route path='dossiers' element={<DossierComponent />} />
+                  <Route path='etudiants' element={<EtudiantComponent />} />
+                  <Route path='demandes' element={<DemandeComponent />} />
+                  <Route path='historique' element={<HistoriqueComponent />} />
+                </Route>
+              ):
+              (
+                <Route path='/' element={<div>Utilisateur</div>} />
+              )
             ):
             (
-              <Route path="/" element={() => <div>Connexion</div>} />
+              <Route path="/" element={<div>Connexion</div>} />
             )
           }
+          <Route path="*" element={<div>Page 404</div>} />
         </Routes>
       </Router>
     </>
