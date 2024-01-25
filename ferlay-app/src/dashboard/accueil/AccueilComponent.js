@@ -31,6 +31,24 @@ const dataRecentDocuments = [
   }
 ]
 
+const dataDossiers = [
+  {
+    id: 1,
+    name: "KASONGO NYEMBO Mercier",
+    isLocked: "locked"
+  },
+  {
+    id: 2,
+    name: "KAWEJ A MBAY Excellence",
+    isLocked: "unlocked"
+  },
+  {
+    id: 3,
+    name: "KATAMBALA MUZUNGU Urbain",
+    isLocked: "unlocked"
+  }
+]
+
 export const AccueilComponent = () => {
   return (
     <div>
@@ -47,15 +65,13 @@ export const AccueilComponent = () => {
       </Grid>
       <SubtitleTypography>Dossiers</SubtitleTypography>
       <Grid container spacing={2} mb={2}>
-        <Grid item xs={12}>
-          <CardDossier />
-        </Grid>
-        <Grid item xs={12}>
-          <CardDossier />
-        </Grid>
-        <Grid item xs={12}>
-          <CardDossier />
-        </Grid>
+        {
+          dataDossiers.map((item) => (
+            <Grid item xs={12} key={item.id}>
+              <CardDossier {...item} />
+            </Grid>
+          ))
+        }
       </Grid>
     </div>
   )

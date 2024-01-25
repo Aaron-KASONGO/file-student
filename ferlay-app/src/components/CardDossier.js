@@ -13,7 +13,7 @@ const isLock = {
     unlocked: <LockOpenIcon />
 }
 
-export const CardDossier = () => {
+export const CardDossier = ({name, isLocked}) => {
   return (
     <div>
         <Card sx={{height: 60}}>
@@ -25,10 +25,10 @@ export const CardDossier = () => {
                 >
                     <Stack direction={'row'} spacing={2}>
                         <FolderIcon color='primary' />                        
-                        <TextTypography>KABAMBA KALUNDA Olivier</TextTypography>
+                        <TextTypography>{name}</TextTypography>
                     </Stack>
                     <Box>
-                        <LockIcon />
+                        {isLock[isLocked]}
                     </Box>
                 </Box>
             </CardContent>
