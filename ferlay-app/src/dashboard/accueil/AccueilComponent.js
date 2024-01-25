@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material'
 import React from 'react'
 import { CardDocument } from '../../components/CardDocument'
+import { CardDossier } from '../../components/CardDossier'
 import { NormalTypography, SubtitleTypography, TextTypography, TitleTypography } from '../../components/commonComponents'
 
 const dataRecentDocuments = [
@@ -35,7 +36,7 @@ export const AccueilComponent = () => {
     <div>
       <TitleTypography>Accueil</TitleTypography>
       <SubtitleTypography>Documents recents</SubtitleTypography>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} mb={2}>
         {
           dataRecentDocuments.map((item) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
@@ -43,6 +44,18 @@ export const AccueilComponent = () => {
             </Grid>
           ))
         }
+      </Grid>
+      <SubtitleTypography>Dossiers</SubtitleTypography>
+      <Grid container spacing={2} mb={2}>
+        <Grid item xs={12}>
+          <CardDossier />
+        </Grid>
+        <Grid item xs={12}>
+          <CardDossier />
+        </Grid>
+        <Grid item xs={12}>
+          <CardDossier />
+        </Grid>
       </Grid>
     </div>
   )

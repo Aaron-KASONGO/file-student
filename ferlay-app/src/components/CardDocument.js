@@ -17,7 +17,7 @@ const docIcon = {
 export const CardDocument = ({title, type, user}) => {
   return (
     <div>
-        <Card sx={{ maxWidth: 250}}>
+        <Card sx={{ maxWidth: 250, borderRadius: 2}}>
             <CardContent>
                 <Box
                 sx={{
