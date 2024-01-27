@@ -4,7 +4,7 @@ import { CardDocument } from '../../components/CardDocument'
 import { CardDossier } from '../../components/CardDossier'
 import { NormalTypography, SubtitleTypography, TextTypography, TitleTypography } from '../../components/commonComponents'
 
-const dataRecentDocuments = [
+export const dataRecentDocuments = [
   {
     id: 1,
     title: "Mon titre 1",
@@ -31,7 +31,7 @@ const dataRecentDocuments = [
   }
 ]
 
-const dataDossiers = [
+export const dataDossiers = [
   {
     id: 1,
     name: "KASONGO NYEMBO Mercier",
