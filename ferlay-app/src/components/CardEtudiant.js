@@ -31,7 +31,7 @@ export const CardEtudiant = ({user}) => {
                     />
                 </Box>
                 <Box>
-                    <TextTypography>Nathan TSHIKWAT</TextTypography>
+                    <TextTypography>{user.name}</TextTypography>
                 </Box>
             </CardContent>
             <CardActions
