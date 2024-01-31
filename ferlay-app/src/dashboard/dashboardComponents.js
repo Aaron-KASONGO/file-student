@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -18,8 +18,9 @@ import SchoolIcon from '@mui/icons-material/School';
 import SdCardAlertIcon from '@mui/icons-material/SdCardAlert';
 import HistoryIcon from '@mui/icons-material/History';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Avatar, Box, CircularProgress, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, Stack, TextField, Typography, useTheme } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 
 export const drawerWidth = 240;
 
@@ -72,14 +73,23 @@ const closedMixin = (theme) => ({
 
 export const DrawerSide = ({open, handleDrawerClose}) => {
     const theme = useTheme();
+    const [openAddUser, setOpenAddUser] = useState(false);
+
+    const handleCloseAddUser = () => {
+        setOpenAddUser(false)
+    }
+
+    const handleOpenAddUser = () => {
+        setOpenAddUser(true)
+    }
     
   return (
     <>
         <Drawer variant="permanent" open={open}>
             <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
-                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-            </IconButton>
+                <IconButton onClick={handleDrawerClose}>
+                    {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                </IconButton>
             </DrawerHeader>
             {
                 open && (
@@ -111,16 +121,52 @@ export const DrawerSide = ({open, handleDrawerClose}) => {
                 )
             }
             <Divider />
-            <List>
-            {drawerIcons.map((item, index) => (
-                <NavLink
-                    to={item.url}
-                    style={{
-                        textDecoration: 'none',
-                        color: 'inherit'
-                    }}
-                >
-                    <ListItem key={index} disablePadding sx={{ display: 'block' }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    height: '100%',
+                    pb: 5
+                }}
+            >
+                <Box>
+                    <List>
+                    {drawerIcons.map((item, index) => (
+                        <NavLink
+                            to={item.url}
+                            style={{
+                                textDecoration: 'none',
+                                color: 'inherit'
+                            }}
+                        >
+                            <ListItem key={index} disablePadding sx={{ display: 'block' }}>
+                                <ListItemButton
+                                    sx={{
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                    }}
+                                >
+                                    <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}
+                                    >
+                                    {item.icon}
+                                    </ListItemIcon>
+                                    <ListItemText primary={item.title} sx={{ opacity: open ? 1 : 0 }} />
+                                </ListItemButton>
+                            </ListItem>
+                        </NavLink>
+                    ))}
+                    </List>
+                    <Divider />
+                    <List>
+                    {drawerIconsDivider.map((item, index) => (
+                        <ListItem key={index} disablePadding sx={{ display: 'block' }}>
                         <ListItemButton
                             sx={{
                             minHeight: 48,
@@ -139,38 +185,124 @@ export const DrawerSide = ({open, handleDrawerClose}) => {
                             </ListItemIcon>
                             <ListItemText primary={item.title} sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
-                    </ListItem>
-                </NavLink>
-            ))}
-            </List>
-            <Divider />
-            <List>
-            {drawerIconsDivider.map((item, index) => (
-                <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-                <ListItemButton
-                    sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5,
-                    }}
-                >
-                    <ListItemIcon
-                    sx={{
-                        minWidth: 0,
-                        mr: open ? 3 : 'auto',
-                        justifyContent: 'center',
-                    }}
-                    >
-                    {item.icon}
-                    </ListItemIcon>
-                    <ListItemText primary={item.title} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-                </ListItem>
-            ))}
-            </List>
+                        </ListItem>
+                    ))}
+                    </List>
+                </Box>
+                {
+                    open && (
+                        <Stack
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                            direction='column'
+                            spacing={2}
+                        >
+                            <Button variant='contained' sx={{ borderRadius: 5 }} onClick={handleOpenAddUser}>Ajouter un étudiant</Button>
+                            <Button variant='contained' sx={{ borderRadius: 5 }}>Créer un document</Button>
+                        </Stack>
+                    )
+                }
+            </Box>
+            <AddStudentDialog open={openAddUser} handleClose={handleCloseAddUser} />
         </Drawer>
     </>
   )
+}
+
+const AddStudentDialog = ({open, handleClose}) => {
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const form = e.target
+        const { error } = await supabase.auth.signUp({
+            email: form.email.value,
+            password: form.password.value,
+            options: {
+                data: {
+                    role: 'student'
+                }
+            }
+        })
+
+        if (error) {
+            alert(error.message)
+        } else {
+            alert('Check your email for confirmation')
+
+            const { data, error } = await supabase
+            .from('Dossier')
+            .insert([
+            { etudiant: form.email.value, prenom: form.prenom.value, nom: form.nom.value, postnom: form.postnom.value },
+            ])
+            .select()
+            }
+        // alert(form.email.value + " " + form.password.value)
+    }
+
+    return (
+        <>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                component="form"
+                onSubmit={handleSubmit}
+            >
+                <DialogTitle>Ajouter Étudiant</DialogTitle>
+                <DialogContent>
+                    <Stack
+                        spacing={2}
+                    >
+                        <TextField
+                            required
+                            name="prenom"
+                            label="Prénom"
+                            type="text"
+                            fullWidth
+                        />
+                        <TextField
+                            required
+                            name="nom"
+                            label="Nom"
+                            type="text"
+                            fullWidth
+                        />
+                        <TextField
+                            required
+                            name="postnom"
+                            label="Post-Nom"
+                            type="text"
+                            fullWidth
+                        />
+                        <TextField
+                            required
+                            name="email"
+                            label="Adresse mail"
+                            type="email"
+                            fullWidth
+                        />
+                        <TextField
+                            required
+                            name="password"
+                            label="Mot de passe"
+                            type="password"
+                            fullWidth
+                        />
+                        <Stack
+                            direction='row'
+                            spacing={1}
+                        >
+                            <Button type='submit' variant='contained'>Ajouter</Button>
+                            <Button type='reset'  variant='contained' color='secondary'>Annuler</Button>
+                        </Stack>
+                    </Stack>
+                </DialogContent>
+            </Dialog>
+        </>
+    )
 }
 
 const drawerIcons = [
