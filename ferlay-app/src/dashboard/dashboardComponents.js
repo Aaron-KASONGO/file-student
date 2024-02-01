@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styled } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -18,9 +18,10 @@ import SchoolIcon from '@mui/icons-material/School';
 import SdCardAlertIcon from '@mui/icons-material/SdCardAlert';
 import HistoryIcon from '@mui/icons-material/History';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Avatar, Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, Stack, TextField, Typography, useTheme } from '@mui/material';
+import { Autocomplete, Avatar, Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, Stack, TextField, Typography, useTheme } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import { getAllDossier } from '../dataFetching/dataReading';
 
 export const drawerWidth = 240;
 
@@ -74,13 +75,22 @@ const closedMixin = (theme) => ({
 export const DrawerSide = ({open, handleDrawerClose}) => {
     const theme = useTheme();
     const [openAddUser, setOpenAddUser] = useState(false);
+    const [openAddDoc, setOpenAddDoc] = useState(false);
 
     const handleCloseAddUser = () => {
-        setOpenAddUser(false)
+        setOpenAddUser(false);
     }
 
     const handleOpenAddUser = () => {
-        setOpenAddUser(true)
+        setOpenAddUser(true);
+    }
+
+    const handleCloseAddDoc = () => {
+        setOpenAddDoc(false);
+    }
+
+    const handleOpenAddDoc = () => {
+        setOpenAddDoc(true)
     }
     
   return (
@@ -202,15 +212,104 @@ export const DrawerSide = ({open, handleDrawerClose}) => {
                             spacing={2}
                         >
                             <Button variant='contained' sx={{ borderRadius: 5 }} onClick={handleOpenAddUser}>Ajouter un étudiant</Button>
-                            <Button variant='contained' sx={{ borderRadius: 5 }}>Créer un document</Button>
+                            <Button variant='contained' sx={{ borderRadius: 5 }} onClick={handleOpenAddDoc}>Créer un document</Button>
                         </Stack>
                     )
                 }
             </Box>
             <AddStudentDialog open={openAddUser} handleClose={handleCloseAddUser} />
+            {
+                openAddDoc && (
+                    <AddDocumentDialog open={openAddDoc} handleClose={handleCloseAddDoc} />
+                )
+            }
         </Drawer>
     </>
   )
+}
+
+const AddDocumentDialog = ({open, handleClose}) => {
+    const [dossiers, setDossiers] = useState([]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const form = e.target
+
+        handleClose();
+    }
+
+    const loadDossier = async () => {
+        const data = await getAllDossier();
+
+        const options = data.map(({prenom, nom, etudiant, id}) => ({label: `${prenom} ${nom} ${etudiant}`, id: id}))
+        setDossiers(options)
+    }
+
+    useEffect(() => {
+        // alert("show")
+        return () => {
+            loadDossier();
+        };
+    }, []);
+    return (
+        <>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                component="form"
+                onSubmit={handleSubmit}
+            >
+                <DialogTitle>Ajouter Étudiant</DialogTitle>
+                <DialogContent>
+                    <Stack
+                        spacing={2}
+                    >
+                        <TextField
+                            required
+                            name="nom_document"
+                            label="Nom du document"
+                            type="text"
+                            fullWidth
+                        />
+                        {/* <TextField
+                            required
+                            name="dossier"
+                            label="Nom du dossier"
+                            type="text"
+                            fullWidth
+                        /> */}
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={dossiers}
+                            renderInput={(params) => <TextField {...params} label="Dossier" fullWidth />}
+                        />
+                        <TextField
+                            required
+                            name="postnom"
+                            label="Post-Nom"
+                            type="text"
+                            fullWidth
+                        />
+                        <TextField
+                            required
+                            name="extension"
+                            label="Extension du document"
+                            type="email"
+                            fullWidth
+                        />
+                        <Stack
+                            direction='row'
+                            spacing={1}
+                        >
+                            <Button type='submit' variant='contained'>Créer</Button>
+                            <Button type='reset' onClick={() => handleClose()}  variant='contained' color='secondary'>Annuler</Button>
+                        </Stack>
+                    </Stack>
+                </DialogContent>
+            </Dialog>
+        </>
+    )
 }
 
 const AddStudentDialog = ({open, handleClose}) => {
@@ -241,6 +340,7 @@ const AddStudentDialog = ({open, handleClose}) => {
             .select()
             }
         // alert(form.email.value + " " + form.password.value)
+        handleClose();
     }
 
     return (
@@ -296,7 +396,7 @@ const AddStudentDialog = ({open, handleClose}) => {
                             spacing={1}
                         >
                             <Button type='submit' variant='contained'>Ajouter</Button>
-                            <Button type='reset'  variant='contained' color='secondary'>Annuler</Button>
+                            <Button type='reset' onClick={() => handleClose()}  variant='contained' color='secondary'>Annuler</Button>
                         </Stack>
                     </Stack>
                 </DialogContent>
