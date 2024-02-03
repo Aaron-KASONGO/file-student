@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { styled } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -18,10 +18,13 @@ import SchoolIcon from '@mui/icons-material/School';
 import SdCardAlertIcon from '@mui/icons-material/SdCardAlert';
 import HistoryIcon from '@mui/icons-material/History';
 import LogoutIcon from '@mui/icons-material/Logout';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
 import { Autocomplete, Avatar, Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, Stack, TextField, Typography, useTheme } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { getAllDossier } from '../dataFetching/dataReading';
+import { createDocument } from '../dataFetching/dataCreating';
 
 export const drawerWidth = 240;
 
@@ -230,10 +233,39 @@ export const DrawerSide = ({open, handleDrawerClose}) => {
 
 const AddDocumentDialog = ({open, handleClose}) => {
     const [dossiers, setDossiers] = useState([]);
+    const [selectedValue, setSelectedValue] = useState();
 
-    const handleSubmit = (e) => {
+    const fileRef = useRef()
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const form = e.target
+        const form = e.target;
+        const date = new Date();
+
+        const file = fileRef.current.files[0];
+
+        if (file) {
+            const { data, error } = await supabase.storage
+                .from('documents')
+                .upload(`docs/${form.nom_document.value}_${date.getMilliseconds()}`, file)
+
+            if (data) {
+                console.log(data)
+                const docData = {
+                    nomDocument: form.nom_document.value,
+                    idDossier: selectedValue.id,
+                    docRef: data.path,
+                    extension: file.name.split('.').pop()
+                };
+                alert(file.name.split('.').pop())
+                createDocument(docData);
+            }
+            if (error) {
+                alert(error.message)
+                console.log(error.message)
+            }
+        }
+        // console.log(file);
 
         handleClose();
     }
@@ -244,6 +276,7 @@ const AddDocumentDialog = ({open, handleClose}) => {
         const options = data.map(({prenom, nom, etudiant, id}) => ({label: `${prenom} ${nom} ${etudiant}`, id: id}))
         setDossiers(options)
     }
+
 
     useEffect(() => {
         // alert("show")
@@ -279,25 +312,20 @@ const AddDocumentDialog = ({open, handleClose}) => {
                             fullWidth
                         /> */}
                         <Autocomplete
+                            // value={selectedValue}
+                            onChange={(event, newValue) => {
+                                setSelectedValue(newValue);
+                            }}
                             disablePortal
                             id="combo-box-demo"
                             options={dossiers}
-                            renderInput={(params) => <TextField {...params} label="Dossier" fullWidth />}
+                            renderInput={(params) => <TextField required {...params} label="Dossier" fullWidth />}
                         />
-                        <TextField
-                            required
-                            name="postnom"
-                            label="Post-Nom"
-                            type="text"
-                            fullWidth
-                        />
-                        <TextField
-                            required
-                            name="extension"
-                            label="Extension du document"
-                            type="email"
-                            fullWidth
-                        />
+                        <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                            Upload file
+                            <VisuallyHiddenInput ref={fileRef} required type="file" />
+                        </Button>
+
                         <Stack
                             direction='row'
                             spacing={1}
@@ -444,3 +472,15 @@ const drawerIconsDivider = [
         icon: <LogoutIcon />
     }
 ]
+
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });

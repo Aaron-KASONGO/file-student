@@ -58,7 +58,7 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
+            Gestionaire de documents
           </Typography>
         </Toolbar>
       </AppBar>
