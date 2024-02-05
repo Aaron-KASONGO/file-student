@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Outlet } from 'react-router-dom';
 import { DrawerHeader, DrawerSide, drawerWidth } from './dashboardComponents';
+import { Drawer } from '@mui/material';
 
 
 const AppBar = styled(MuiAppBar, {
@@ -32,6 +33,8 @@ const AppBar = styled(MuiAppBar, {
 export default function Dashboard() {
   const [open, setOpen] = React.useState(false);
 
+  const [openRightDrawer, setOpenRightDrawer] = React.useState(false);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -43,7 +46,7 @@ export default function Dashboard() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" sx={{ zIndex: 1}} open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -65,8 +68,15 @@ export default function Dashboard() {
       <DrawerSide open={open} handleDrawerClose={handleDrawerClose} />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Outlet />
+        <Outlet context={[openRightDrawer, setOpenRightDrawer]} />
       </Box>
+      <Drawer
+            anchor={'right'}
+            open={openRightDrawer}
+            onClose={() => setOpenRightDrawer(false)}
+          >
+            <Box width={250}></Box>
+      </Drawer>
     </Box>
   );
 }

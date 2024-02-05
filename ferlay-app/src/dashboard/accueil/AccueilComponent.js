@@ -3,6 +3,11 @@ import React from 'react'
 import { CardDocument } from '../../components/CardDocument'
 import { CardDossier } from '../../components/CardDossier'
 import { NormalTypography, SubtitleTypography, TextTypography, TitleTypography } from '../../components/commonComponents'
+import { DossierList } from '../dossiers/DossierComponent'
+import { getRecentDocument, getRecentDossier } from '../../dataFetching/dataReading'
+import { withListeHoc } from '../../components/HOCs/withListeHoc'
+import { DocumentList } from '../documents/DocumentComponent'
+import { useOutletContext } from 'react-router-dom'
 
 export const dataRecentDocuments = [
   {
@@ -49,29 +54,41 @@ export const dataDossiers = [
   }
 ]
 
+const DossierListComponent = withListeHoc(DossierList, async({data}) => {
+  const result = await getRecentDossier();
+  
+  const finalData = result.map((item) => ({
+    name: `${item.nom} ${item.postnom} ${item.prenom}`,
+    isLocked: item.is_locked ? 'locked': 'unlocked'
+  }))
+  return finalData;
+})
+
+const DocumentListComponent = withListeHoc(DocumentList, async({data}) => {
+  const result = await getRecentDocument();
+  console.log(result)
+  const finalData = result.map((item) => ({
+    title: item.nom_document,
+    type: item.extension ? item.extension : 'text',
+    user: {
+      name: item.Dossier.etudiant
+    }
+  }))
+  return finalData;
+})
+
 export const AccueilComponent = () => {
+  const [openRightDrawer, setOpenRightDrawer] = useOutletContext();
   return (
     <div>
       <TitleTypography>Accueil</TitleTypography>
       <SubtitleTypography>Documents recents</SubtitleTypography>
       <Grid container spacing={2} mb={2}>
-        {
-          dataRecentDocuments.map((item) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
-              <CardDocument {...item} />
-            </Grid>
-          ))
-        }
+        <DocumentListComponent openRightDrawer={openRightDrawer} setOpenRightDrawer={setOpenRightDrawer} />
       </Grid>
       <SubtitleTypography>Dossiers</SubtitleTypography>
       <Grid container spacing={2} mb={2}>
-        {
-          dataDossiers.map((item) => (
-            <Grid item xs={12} key={item.id}>
-              <CardDossier {...item} />
-            </Grid>
-          ))
-        }
+        <DossierListComponent />
       </Grid>
     </div>
   )

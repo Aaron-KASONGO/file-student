@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AccueilComponent } from "./dashboard/accueil/AccueilComponent";
 import Dashboard from "./dashboard/dashbaord";
 import { DemandeComponent } from "./dashboard/demandes/DemandeComponent";
