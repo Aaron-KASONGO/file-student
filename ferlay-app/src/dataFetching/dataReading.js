@@ -35,6 +35,8 @@ export const getRecentDossier = async () => {
         
 }
 
+// Document reading api
+
 export const getAllDocument = async () => {
 
     let { data, error } = await supabase
@@ -58,6 +60,27 @@ export const getRecentDocument = async () => {
         .from('Document')
         .select('id, nom_document, extension, Dossier(id, etudiant)')
         .limit(4)
+    
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    if (data) {
+        return data;
+    }
+        
+}
+
+export const getDocumentById = async (id) => {
+
+    
+    let { data, error } = await supabase
+        .from('Document')
+        .select('*')
+        .eq('id', id)
+        .single();
+
     
     if (error) {
         alert(error.message);

@@ -10,6 +10,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Outlet } from 'react-router-dom';
 import { DrawerHeader, DrawerSide, drawerWidth } from './dashboardComponents';
 import { Drawer } from '@mui/material';
+import { DocumentFormDrawerComponent } from '../components/DocumentFormDrawerComponent';
+import { DossierFormDrawerComponent } from '../components/DossierFormDrawerComponent';
+
 
 
 const AppBar = styled(MuiAppBar, {
@@ -29,12 +32,13 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }));
+// objet = { statue: false, element: dossier || document, id }
 
 export default function Dashboard() {
   const [open, setOpen] = React.useState(false);
 
-  const [openRightDrawer, setOpenRightDrawer] = React.useState(false);
-
+  const [openRightDrawer, setOpenRightDrawer] = React.useState({statue: false, element: null, id: null});
+  console.log(openRightDrawer)
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -46,7 +50,7 @@ export default function Dashboard() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" sx={{ zIndex: 1}} open={open}>
+      <AppBar position="fixed" sx={{ zIndex: 2 }} open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -72,10 +76,18 @@ export default function Dashboard() {
       </Box>
       <Drawer
             anchor={'right'}
-            open={openRightDrawer}
-            onClose={() => setOpenRightDrawer(false)}
+            open={openRightDrawer.statue}
+            onClose={() => setOpenRightDrawer({...openRightDrawer, statue: false})}
           >
-            <Box width={250}></Box>
+            <Box width={300}>
+              {
+                openRightDrawer.element === 'document' ? (
+                  <DocumentFormDrawerComponent id={openRightDrawer.id} openRightDrawer={openRightDrawer} setOpenRightDrawer={setOpenRightDrawer} />
+                ): (
+                  <DossierFormDrawerComponent id={openRightDrawer.id} openRightDrawer={openRightDrawer} setOpenRightDrawer={setOpenRightDrawer} />
+                )
+              }
+            </Box>
       </Drawer>
     </Box>
   );

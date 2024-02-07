@@ -59,20 +59,21 @@ const DossierListComponent = withListeHoc(DossierList, async({data}) => {
   
   const finalData = result.map((item) => ({
     name: `${item.nom} ${item.postnom} ${item.prenom}`,
-    isLocked: item.is_locked ? 'locked': 'unlocked'
+    isLocked: item.is_locked ? 'locked': 'unlocked',
+    id: item.id
   }))
   return finalData;
 })
 
 const DocumentListComponent = withListeHoc(DocumentList, async({data}) => {
   const result = await getRecentDocument();
-  console.log(result)
   const finalData = result.map((item) => ({
     title: item.nom_document,
     type: item.extension ? item.extension : 'text',
     user: {
       name: item.Dossier.etudiant
-    }
+    },
+    id: item.id
   }))
   return finalData;
 })
@@ -88,7 +89,7 @@ export const AccueilComponent = () => {
       </Grid>
       <SubtitleTypography>Dossiers</SubtitleTypography>
       <Grid container spacing={2} mb={2}>
-        <DossierListComponent />
+        <DossierListComponent openRightDrawer={openRightDrawer} setOpenRightDrawer={setOpenRightDrawer} />
       </Grid>
     </div>
   )

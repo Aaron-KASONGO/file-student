@@ -98,7 +98,7 @@ export const DrawerSide = ({open, handleDrawerClose}) => {
     
   return (
     <>
-        <Drawer variant="permanent" open={open}>
+        <Drawer sx={{ zIndex: 1 }} variant="permanent" open={open}>
             <DrawerHeader>
                 <IconButton onClick={handleDrawerClose}>
                     {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -152,8 +152,9 @@ export const DrawerSide = ({open, handleDrawerClose}) => {
                                 textDecoration: 'none',
                                 color: 'inherit'
                             }}
+                            key={index}
                         >
-                            <ListItem key={index} disablePadding sx={{ display: 'block' }}>
+                            <ListItem disablePadding sx={{ display: 'block' }}>
                                 <ListItemButton
                                     sx={{
                                     minHeight: 48,

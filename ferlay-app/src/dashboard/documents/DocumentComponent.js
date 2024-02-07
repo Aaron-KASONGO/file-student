@@ -12,7 +12,7 @@ export const DocumentList = ({data, openRightDrawer, setOpenRightDrawer}) => {
       {
         data.map((item) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
-            <Box onClick={() => setOpenRightDrawer(true)}>
+            <Box onClick={() => setOpenRightDrawer({statue: true, element: 'document',id: item.id })}>
               <CardDocument {...item} />
             </Box>
           </Grid>
@@ -24,13 +24,13 @@ export const DocumentList = ({data, openRightDrawer, setOpenRightDrawer}) => {
 
 const DocumentListComponent = withListeHoc(DocumentList, async({data}) => {
   const result = await getAllDocument();
-  console.log(result)
   const finalData = result.map((item) => ({
     title: item.nom_document,
     type: item.extension ? item.extension : 'text',
     user: {
       name: item.Dossier.etudiant
-    }
+    },
+    id: item.id
   }))
   return finalData;
 })
