@@ -6,17 +6,32 @@ import { DocumentComponent } from "./dashboard/documents/DocumentComponent";
 import { DossierComponent } from "./dashboard/dossiers/DossierComponent";
 import { EtudiantComponent } from "./dashboard/etudiants/EtudiantComponent";
 import { HistoriqueComponent } from "./dashboard/historique/HistoriqueComponent";
+import { supabase } from "./supabaseClient";
+import { useEffect, useState } from "react";
+import { ConnexionPage } from "./connexion/ConnexionPage";
 
 
 function App() {
+  const [session, setSession] = useState(null)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+    })
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+  }, [])
+
   return (
     <>
       <Router>
         <Routes>
           {
-            (true) ?
+            (session && session.user) ?
             (
-              (true) ?
+              (session.user.user_metadata.role !== "student") ?
               (
                 <Route path='/' element={<Dashboard />}>
                   <Route index element={<AccueilComponent />} />
@@ -32,7 +47,7 @@ function App() {
               )
             ):
             (
-              <Route path="/" element={<div>Connexion</div>} />
+              <Route path="/" element={<ConnexionPage />} />
             )
           }
           <Route path="*" element={<div>Page 404</div>} />

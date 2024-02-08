@@ -99,7 +99,7 @@ export const DossierFormDrawerComponent = ({ id, openRightDrawer, setOpenRightDr
                     <Button disabled={disabledModif} onClick={updateDossier}>Modifier</Button>
                     <Button color='error' onClick={() => setOpenRightDrawer({...openRightDrawer, statue: false})}>Annuler</Button>
                 </Stack>
-                <Stack
+                {/* <Stack
                     direction={'row'}
                     spacing={3}
                 >
@@ -109,7 +109,7 @@ export const DossierFormDrawerComponent = ({ id, openRightDrawer, setOpenRightDr
                     <IconButton color='primary'>
                         <CloudDownloadIcon />
                     </IconButton>
-                </Stack>
+                </Stack> */}
             </Stack>
         </Box>
     </Box>
