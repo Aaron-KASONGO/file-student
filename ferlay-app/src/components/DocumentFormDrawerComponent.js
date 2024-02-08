@@ -14,7 +14,6 @@ export const DocumentFormDrawerComponent = ({id, openRightDrawer, setOpenRightDr
         const data = await getDocumentById(id);
         if (data) {
             setNomDocument(data.nom_document)
-            console.log(data)
         }
     }
 

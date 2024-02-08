@@ -1,5 +1,7 @@
 import { supabase } from "../supabaseClient"
 
+// Dossier reading api
+
 export const getAllDossier = async () => {
 
     let { data, error } = await supabase
@@ -32,7 +34,25 @@ export const getRecentDossier = async () => {
     if (data) {
         return data;
     }
-        
+}
+
+export const getDossierById = async (id) => {
+
+    
+    let { data, error } = await supabase
+        .from('Dossier')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    if (data) {
+        return data;
+    }  
 }
 
 // Document reading api
@@ -89,6 +109,5 @@ export const getDocumentById = async (id) => {
 
     if (data) {
         return data;
-    }
-        
+    }  
 }
