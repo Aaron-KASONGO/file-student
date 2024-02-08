@@ -9,6 +9,7 @@ import { HistoriqueComponent } from "./dashboard/historique/HistoriqueComponent"
 import { supabase } from "./supabaseClient";
 import { useEffect, useState } from "react";
 import { ConnexionPage } from "./connexion/ConnexionPage";
+import { Utilisateur } from "./utilisateur/Utilisateur";
 
 
 function App() {
@@ -43,7 +44,7 @@ function App() {
                 </Route>
               ):
               (
-                <Route path='/' element={<div>Utilisateur</div>} />
+                <Route path='/' element={<Utilisateur />} />
               )
             ):
             (

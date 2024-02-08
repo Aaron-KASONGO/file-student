@@ -55,6 +55,24 @@ export const getDossierById = async (id) => {
     }  
 }
 
+export const getDossierByEmail = async (email) => {
+    
+    let { data, error } = await supabase
+        .from('Dossier')
+        .select('*')
+        .eq('etudiant', email)
+        .single();
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    if (data) {
+        return data;
+    }  
+}
+
 // Document reading api
 
 export const getAllDocument = async () => {
