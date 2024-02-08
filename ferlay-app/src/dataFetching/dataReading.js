@@ -129,3 +129,20 @@ export const getDocumentById = async (id) => {
         return data;
     }  
 }
+
+export const getDocumentByDossier = async (dossierId) => {
+    
+    let { data, error } = await supabase
+        .from('Document')
+        .select('*')
+        .eq('dossier', dossierId)
+    
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    if (data) {
+        return data;
+    }  
+}
