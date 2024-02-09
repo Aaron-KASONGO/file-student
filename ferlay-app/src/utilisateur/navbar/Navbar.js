@@ -37,7 +37,7 @@ export const Navbar = ({dossier, setOpenModal}) => {
           <IconButton
             onClick={handleClick}
           >
-            <Avatar src='https://images.pexels.com/photos/5774802/pexels-photo-5774802.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' />
+            <Avatar alt='utilisateur' />
           </IconButton>
           <Menu
                 id="basic-menu"
