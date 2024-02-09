@@ -8,7 +8,7 @@ import AppsIcon from '@mui/icons-material/Apps';
 
 import { NormalTypography } from './commonComponents';
 
-const docIcon = {
+export const docIcon = {
     text: <TextSnippetIcon sx={{ fontSize: 75 }} color="primary" />,
     pdf: <PictureAsPdfIcon sx={{ fontSize: 75 }} color="error" />,
     sheet: <AppsIcon sx={{ fontSize: 75 }} color="success"  />

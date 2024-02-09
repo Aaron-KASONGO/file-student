@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Navbar } from './navbar/Navbar'
 import { supabase } from '../supabaseClient'
 import { getDocumentByDossier, getDossierByEmail } from '../dataFetching/dataReading'
+import { Box, Card, CardContent, Grid, Stack } from '@mui/material'
+import { SearchBar } from './searchbar/SearchBar'
+import { docIcon } from '../components/CardDocument'
 
 export const Utilisateur = () => {
     const [session, setSession] = useState(null)
@@ -28,6 +31,17 @@ export const Utilisateur = () => {
         })
     }, [])
     return (
-        <Navbar dossier={dossier} />
+        <Stack spacing={4}>
+            <Navbar dossier={dossier} />
+            <Box
+                display={'flex'}
+                justifyContent={'center'}
+            >
+                <SearchBar />
+            </Box>
+            <Grid container>
+                
+            </Grid>
+        </Stack>
   )
 }
