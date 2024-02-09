@@ -20,7 +20,7 @@ export const createDocument = async ({nomDocument, idDossier, docRef, extension}
     }
 }
 
-export const createDemand = async ({content, idDossier }) => {
+export const createDemand = async (content, idDossier ) => {
     
     const { data, error } = await supabase
         .from('Demande')

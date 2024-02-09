@@ -25,6 +25,7 @@ export const getRecentDossier = async () => {
         .from('Dossier')
         .select('*')
         .limit(10)
+        .order("created_at", { ascending: false })
     
     if (error) {
         alert(error.message);
@@ -98,6 +99,7 @@ export const getRecentDocument = async () => {
         .from('Document')
         .select('id, nom_document, extension, Dossier(id, etudiant)')
         .limit(4)
+        .order("created_at", { ascending: false })
     
     if (error) {
         alert(error.message);
@@ -136,6 +138,23 @@ export const getDocumentByDossier = async (dossierId) => {
         .from('Document')
         .select('id, nom_document, extension, doc_ref, Dossier(id, etudiant)')
         .eq('dossier', dossierId)
+    
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    if (data) {
+        return data;
+    }  
+}
+
+// Reading data form demande
+export const getAllDemande = async () => {
+    let { data, error } = await supabase
+    .from('Demande')
+    .select('id, content, Dossier(id, etudiant, nom, prenom)')
+    .order("created_at", { ascending: false })
     
     if (error) {
         alert(error.message);

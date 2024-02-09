@@ -6,6 +6,7 @@ import { Box, Button, Card, CardActions, CardContent, CardHeader, Container, Gri
 import { SearchBar } from './searchbar/SearchBar'
 import { DocumentLisUser } from './documentlist/DocumentLisUser'
 import { withListeNotAsyncHoc } from '../components/HOCs/withListeNotAsyncHoc'
+import { createDemand } from '../dataFetching/dataCreating'
 
 const DocumentUser = withListeNotAsyncHoc(DocumentLisUser, ({data, search}) => {
     // console.log(search)
@@ -20,10 +21,15 @@ export const Utilisateur = () => {
     const [search, setSearch] = useState("");
     const [openModal, setOpenModal] = useState(false);
 
+    console.log(documents)
     const onSubmitDemand = (e) => {
         e.preventDefault();
         const form = e.target
-
+        const data = createDemand(form.demande.value, dossier.id)
+        if (data) {
+            console.log("Demande effectuée !")
+            setOpenModal(false)
+        }
     }
 
     useEffect(() => {
@@ -41,7 +47,12 @@ export const Utilisateur = () => {
                                     name: item.Dossier.etudiant
                                 },
                                 id: item.id,
-                                doc_ref: item.doc_ref
+                                doc_ref:  supabase
+                                  .storage
+                                  .from('documents')
+                                  .getPublicUrl(item.doc_ref, {
+                                    download: true,
+                                  }).data.publicUrl
                                 }))
                             setDocuments(finalData);
                         })
@@ -82,11 +93,12 @@ export const Utilisateur = () => {
                                 rows={4}
                                 placeholder='Contenu de la demande'
                                 fullWidth
+                                name='demande'
                             />
                     </CardContent>
                     <CardActions>
                         <Button type='submit' variant='contained'>Envoyer</Button>
-                        <Button type='reset' variant='contained' color='error'>Annuler</Button>
+                        <Button onClick={() => setOpenModal(false)} type='reset' variant='contained' color='error'>Annuler</Button>
                     </CardActions>
                 </Card>
             </Modal>

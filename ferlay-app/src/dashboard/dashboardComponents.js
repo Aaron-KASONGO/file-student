@@ -75,7 +75,7 @@ const closedMixin = (theme) => ({
     },
 });
 
-export const DrawerSide = ({open, handleDrawerClose}) => {
+export const DrawerSide = ({open, handleDrawerClose, session}) => {
     const theme = useTheme();
     const [openAddUser, setOpenAddUser] = useState(false);
     const [openAddDoc, setOpenAddDoc] = useState(false);
@@ -120,10 +120,10 @@ export const DrawerSide = ({open, handleDrawerClose}) => {
                                 <Avatar sx={{
                                     width: 75,
                                     height: 75
-                                }} src={'https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} alt='avatar' />
+                                }}  alt='avatar' title='Admin'/>
                                 <Box>
-                                    <Typography variant='h6' textAlign='center'>Bismark Biyombo</Typography>
-                                    <Typography variant='subtitle2' textAlign='center'>bismark.biyombo@gmail.com</Typography>
+                                    <Typography variant='h6' textAlign='center'>Administrateur</Typography>
+                                    <Typography variant='subtitle2' textAlign='center'>{session.user.email}</Typography>
                                 </Box>
                                 </>
                             ): (
@@ -450,21 +450,21 @@ const drawerIcons = [
         icon: <FolderIcon />,
         url: '/dossiers'
     },
-    {
-        title: "Étudiants",
-        icon: <SchoolIcon />,
-        url: '/etudiants'
-    },
+    // {
+    //     title: "Étudiants",
+    //     icon: <SchoolIcon />,
+    //     url: '/etudiants'
+    // },
     {
         title: "Demandes",
         icon: <SdCardAlertIcon />,
         url: '/demandes'
     },
-    {
-        title: "Historique",
-        icon: <HistoryIcon />,
-        url: '/historique'
-    }
+    // {
+    //     title: "Historique",
+    //     icon: <HistoryIcon />,
+    //     url: '/historique'
+    // }
 ]
 
 const drawerIconsDivider = [

@@ -5,7 +5,7 @@ import { NormalTypography } from './commonComponents';
 import { docIcon } from './CardDocument';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 
-export const CardDocumentUser = ({title, type, user}) => {
+export const CardDocumentUser = ({title, type, user, doc_ref}) => {
   return (
         <Card sx={{ borderRadius: 2}}>
             <CardContent>
@@ -27,7 +27,7 @@ export const CardDocumentUser = ({title, type, user}) => {
                 </Box>
             </CardContent>
             <CardActions>
-                <IconButton size="small"><CloudDownloadIcon /></IconButton>
+                <IconButton href={doc_ref} size="small"><CloudDownloadIcon /></IconButton>
             </CardActions>
         </Card>
   )

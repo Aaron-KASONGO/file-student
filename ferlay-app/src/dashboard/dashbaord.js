@@ -12,6 +12,7 @@ import { DrawerHeader, DrawerSide, drawerWidth } from './dashboardComponents';
 import { Drawer } from '@mui/material';
 import { DocumentFormDrawerComponent } from '../components/DocumentFormDrawerComponent';
 import { DossierFormDrawerComponent } from '../components/DossierFormDrawerComponent';
+import { supabase } from '../supabaseClient';
 
 
 
@@ -36,6 +37,7 @@ const AppBar = styled(MuiAppBar, {
 
 export default function Dashboard() {
   const [open, setOpen] = React.useState(false);
+  const [session, setSession] = React.useState(null)
 
   const [openRightDrawer, setOpenRightDrawer] = React.useState({statue: false, element: null, id: null});
   console.log(openRightDrawer)
@@ -46,6 +48,17 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+
+  React.useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+    })
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+  }, [])
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -69,7 +82,7 @@ export default function Dashboard() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <DrawerSide open={open} handleDrawerClose={handleDrawerClose} />
+      <DrawerSide session={session} open={open} handleDrawerClose={handleDrawerClose} />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         <Outlet context={[openRightDrawer, setOpenRightDrawer]} />
