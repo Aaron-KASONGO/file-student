@@ -187,6 +187,7 @@ export const DrawerSide = ({open, handleDrawerClose, session}) => {
                             justifyContent: open ? 'initial' : 'center',
                             px: 2.5,
                             }}
+                            onClick={() => supabase.auth.signOut()}
                         >
                             <ListItemIcon
                             sx={{

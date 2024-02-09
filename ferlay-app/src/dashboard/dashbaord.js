@@ -40,7 +40,6 @@ export default function Dashboard() {
   const [session, setSession] = React.useState(null)
 
   const [openRightDrawer, setOpenRightDrawer] = React.useState({statue: false, element: null, id: null});
-  console.log(openRightDrawer)
   const handleDrawerOpen = () => {
     setOpen(true);
   };
