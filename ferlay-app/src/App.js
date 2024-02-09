@@ -6,10 +6,10 @@ import { DocumentComponent } from "./dashboard/documents/DocumentComponent";
 import { DossierComponent } from "./dashboard/dossiers/DossierComponent";
 import { EtudiantComponent } from "./dashboard/etudiants/EtudiantComponent";
 import { HistoriqueComponent } from "./dashboard/historique/HistoriqueComponent";
-import { supabase } from "./supabaseClient";
 import { useEffect, useState } from "react";
 import { ConnexionPage } from "./connexion/ConnexionPage";
 import { Utilisateur } from "./utilisateur/Utilisateur";
+import { supabase } from "./config/supabaseClient";
 
 
 function App() {
@@ -48,7 +48,7 @@ function App() {
               )
             ):
             (
-              <Route path="/" element={<ConnexionPage />} />
+              <Route path="*" element={<ConnexionPage />} />
             )
           }
           <Route path="*" element={<div>Page 404</div>} />

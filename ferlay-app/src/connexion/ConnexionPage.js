@@ -1,6 +1,6 @@
 import { Button, Grid, Stack, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import { supabase } from '../supabaseClient'
+import { supabase } from '../config/supabaseClient';
 
 export const ConnexionPage = () => {
     const [loading, setLoading] = useState(false);

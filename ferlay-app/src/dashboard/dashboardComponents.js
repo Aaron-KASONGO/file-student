@@ -22,9 +22,9 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 import { Autocomplete, Avatar, Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, Stack, TextField, Typography, useTheme } from '@mui/material';
 import { NavLink } from 'react-router-dom';
-import { supabase } from '../supabaseClient';
 import { getAllDossier } from '../dataFetching/dataReading';
 import { createDocument } from '../dataFetching/dataCreating';
+import { supabase } from '../config/supabaseClient';
 
 export const drawerWidth = 240;
 

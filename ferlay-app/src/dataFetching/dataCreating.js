@@ -1,4 +1,4 @@
-import { supabase } from "../supabaseClient";
+import { supabase } from "../config/supabaseClient";
 
 
 export const createDocument = async ({nomDocument, idDossier, docRef, extension}) => {

@@ -1,6 +1,7 @@
-import { supabase } from "../supabaseClient"
 
 // Dossier reading api
+
+import { supabase } from "../config/supabaseClient";
 
 export const getAllDossier = async () => {
 

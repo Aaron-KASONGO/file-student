@@ -12,7 +12,7 @@ import { DrawerHeader, DrawerSide, drawerWidth } from './dashboardComponents';
 import { Drawer } from '@mui/material';
 import { DocumentFormDrawerComponent } from '../components/DocumentFormDrawerComponent';
 import { DossierFormDrawerComponent } from '../components/DossierFormDrawerComponent';
-import { supabase } from '../supabaseClient';
+import { supabase } from '../config/supabaseClient';
 
 
 

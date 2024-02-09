@@ -1,6 +1,7 @@
 import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
 import React from 'react'
-import { supabase } from '../../supabaseClient';
+import { supabase } from '../../config/supabaseClient';
+
 
 export const Navbar = ({dossier, setOpenModal}) => {
     const [anchorEl, setAnchorEl] = React.useState(null);

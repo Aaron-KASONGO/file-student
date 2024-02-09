@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Navbar } from './navbar/Navbar'
-import { supabase } from '../supabaseClient'
 import { getDocumentByDossier, getDossierByEmail } from '../dataFetching/dataReading'
 import { Box, Button, Card, CardActions, CardContent, CardHeader, Container, Grid, Modal, Stack, TextField, Typography } from '@mui/material'
 import { SearchBar } from './searchbar/SearchBar'
 import { DocumentLisUser } from './documentlist/DocumentLisUser'
 import { withListeNotAsyncHoc } from '../components/HOCs/withListeNotAsyncHoc'
 import { createDemand } from '../dataFetching/dataCreating'
+import { supabase } from '../config/supabaseClient'
 
 const DocumentUser = withListeNotAsyncHoc(DocumentLisUser, ({data, search}) => {
     // console.log(search)

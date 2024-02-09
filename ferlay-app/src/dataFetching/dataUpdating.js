@@ -1,6 +1,7 @@
-import { supabase } from "../supabaseClient";
 
 // Data updating for Document
+
+import { supabase } from "../config/supabaseClient";
 
 export const UpdateDocumentById = async (nomDocument, id) => {
     const { data, error } = await supabase
