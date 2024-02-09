@@ -1,8 +1,9 @@
-import { Box, Card, CardContent, Grid } from '@mui/material'
+import { Box, Card, CardActions, CardContent, IconButton } from '@mui/material'
 import React from 'react'
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import { NormalTypography } from './commonComponents';
 import { docIcon } from './CardDocument';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 
 export const CardDocumentUser = ({title, type, user}) => {
   return (
@@ -25,6 +26,9 @@ export const CardDocumentUser = ({title, type, user}) => {
                     {docIcon[type]}
                 </Box>
             </CardContent>
+            <CardActions>
+                <IconButton size="small"><CloudDownloadIcon /></IconButton>
+            </CardActions>
         </Card>
   )
 }

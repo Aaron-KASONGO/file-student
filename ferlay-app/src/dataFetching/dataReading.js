@@ -134,7 +134,7 @@ export const getDocumentByDossier = async (dossierId) => {
     
     let { data, error } = await supabase
         .from('Document')
-        .select('*')
+        .select('id, nom_document, extension, doc_ref, Dossier(id, etudiant)')
         .eq('dossier', dossierId)
     
     if (error) {

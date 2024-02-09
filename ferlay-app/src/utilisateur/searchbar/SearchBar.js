@@ -2,8 +2,7 @@ import { Box, IconButton, InputBase, Paper, TextField } from '@mui/material'
 import React from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 
-export const SearchBar = () => {
-    
+export const SearchBar = ({search, setSearch}) => {
   return (
     <Paper
       component="form"
@@ -16,6 +15,8 @@ export const SearchBar = () => {
         sx={{ ml: 1, flex: 1 }}
         placeholder="Search Google Maps"
         inputProps={{ 'aria-label': 'search google maps' }}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
       />
       <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
         <SearchIcon />

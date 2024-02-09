@@ -2,7 +2,7 @@ import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typog
 import React from 'react'
 import { supabase } from '../../supabaseClient';
 
-export const Navbar = ({dossier}) => {
+export const Navbar = ({dossier, setOpenModal}) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
@@ -49,7 +49,7 @@ export const Navbar = ({dossier}) => {
                 }}
             >
                 <MenuItem><Typography variant='body1' fontWeight={'bold'}>{dossier.nom} {dossier.postnom} {dossier.prenom}</Typography></MenuItem>
-                <MenuItem onClick={handleClose}>Faire une demande</MenuItem>
+                <MenuItem onClick={() => setOpenModal(true)}>Faire une demande</MenuItem>
                 <MenuItem onClick={logOut}>Logout</MenuItem>
             </Menu>
         </Toolbar>

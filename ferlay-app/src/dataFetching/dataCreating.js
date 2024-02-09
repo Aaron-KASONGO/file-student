@@ -19,3 +19,23 @@ export const createDocument = async ({nomDocument, idDossier, docRef, extension}
         return data;
     }
 }
+
+export const createDemand = async ({content, idDossier }) => {
+    
+    const { data, error } = await supabase
+        .from('Demande')
+        .insert([
+            { content: content, viewed: false, dossier: idDossier },
+        ])
+        .select()
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    if (data) {
+        return data;
+    }
+}
+          
