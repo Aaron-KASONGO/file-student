@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CardDocument } from '../../components/CardDocument'
 import { CardDossier } from '../../components/CardDossier'
 import { NormalTypography, SubtitleTypography, TextTypography, TitleTypography } from '../../components/commonComponents'
@@ -80,6 +80,8 @@ const DocumentListComponent = withListeHoc(DocumentList, async({data}) => {
 
 export const AccueilComponent = () => {
   const [openRightDrawer, setOpenRightDrawer] = useOutletContext();
+  useEffect(() => {
+  }, [openRightDrawer]);
   return (
     <div>
       <TitleTypography>Accueil</TitleTypography>

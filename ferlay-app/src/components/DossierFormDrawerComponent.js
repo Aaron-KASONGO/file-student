@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import { getDossierById } from '../dataFetching/dataReading';
 import { UpdateDossiertById } from '../dataFetching/dataUpdating';
+import { Link } from 'react-router-dom';
 
 export const DossierFormDrawerComponent = ({ id, openRightDrawer, setOpenRightDrawer }) => {
   const [disabledModif, setDisabledModif] = useState(true);
@@ -99,6 +100,11 @@ export const DossierFormDrawerComponent = ({ id, openRightDrawer, setOpenRightDr
                     <Button disabled={disabledModif} onClick={updateDossier}>Modifier</Button>
                     <Button color='error' onClick={() => setOpenRightDrawer({...openRightDrawer, statue: false})}>Annuler</Button>
                 </Stack>
+                <Link to={`/dossiers/${id}`} style={{ textDecoration: 'none'}}>
+                  <Button>
+                    Ouvrir le dossier
+                  </Button>
+                </Link>
                 {/* <Stack
                     direction={'row'}
                     spacing={3}

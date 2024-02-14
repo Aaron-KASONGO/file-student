@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { ConnexionPage } from "./connexion/ConnexionPage";
 import { Utilisateur } from "./utilisateur/Utilisateur";
 import { supabase } from "./config/supabaseClient";
+import { OpenDossier } from "./dashboard/open-dossier/OpenDossier";
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
                   <Route path='etudiants' element={<EtudiantComponent />} />
                   <Route path='demandes' element={<DemandeComponent />} />
                   <Route path='historique' element={<HistoriqueComponent />} />
+                  <Route path='dossiers/:idDossier' element={<OpenDossier />} />
                 </Route>
               ):
               (

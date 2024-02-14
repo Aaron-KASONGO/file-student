@@ -1,5 +1,5 @@
 import { Box, Grid } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CardDocument } from '../../components/CardDocument'
 import { TitleTypography } from '../../components/commonComponents'
 import { withListeHoc } from '../../components/HOCs/withListeHoc'
@@ -37,6 +37,9 @@ const DocumentListComponent = withListeHoc(DocumentList, async({data}) => {
 
 export const DocumentComponent = () => {
   const [openRightDrawer, setOpenRightDrawer] = useOutletContext();
+
+  useEffect(() => {
+  }, [openRightDrawer]);
   return (
     <>
       <TitleTypography>Documents</TitleTypography>
