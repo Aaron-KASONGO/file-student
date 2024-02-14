@@ -7,17 +7,27 @@ import { getDocumentById } from '../dataFetching/dataReading';
 import { UpdateDocumentById } from '../dataFetching/dataUpdating';
 import { deleteDocumentById } from '../dataFetching/dataDeleting';
 import { PriorityHigh } from '@mui/icons-material';
+import { supabase } from '../config/supabaseClient';
 
 export const DocumentFormDrawerComponent = ({id, openRightDrawer, setOpenRightDrawer}) => {
     const [nomDocument, setNomDocument] = useState(null);
     const [disabledModif, setDisabledModif] = useState(true);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [loadingSup, setLoadingSup] = useState(false);
+    const [docRef, setDocRef] = useState(null);
 
     const fetchDocument = async() => {
         const data = await getDocumentById(id);
         if (data) {
             setNomDocument(data.nom_document)
+            setDocRef(
+                supabase
+                    .storage
+                    .from('documents')
+                    .getPublicUrl(data.doc_ref, {
+                    download: true,
+                    }).data.publicUrl
+            )
         }
     }
 
@@ -92,7 +102,7 @@ export const DocumentFormDrawerComponent = ({id, openRightDrawer, setOpenRightDr
                     <IconButton onClick={() => setDeleteModalOpen(true)} color='error'>
                         <DeleteIcon />
                     </IconButton>
-                    <IconButton color='primary'>
+                    <IconButton href={docRef} color='primary'>
                         <CloudDownloadIcon />
                     </IconButton>
                 </Stack>
