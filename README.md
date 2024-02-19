@@ -1,6 +1,6 @@
 # file-student
 
-###Pour lancer le projet, voici quelques étapes:
+### Pour lancer le projet, voici quelques étapes:
 > Il faut noter que les étapes suivantes sont à considérées dès lors qu'on a le projet.
 1. Pour commencer, il faut taper la commande `cd ferlay-app` pour se déplacer dans le fichier **ferlay-app**
 2. Ensuite, taper la commande `npm install` qui va nous permettre d'installer toutes les dépendances du projet.
