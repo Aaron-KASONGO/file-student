@@ -37,7 +37,7 @@ export const CardDocument = ({title, type, user}) => {
                 </Box>
                 <Box>
                     <Tooltip title={user.name}>
-                        <Avatar alt={user.name} sx={{ width: 30, height: 30 }} src="https://images.pexels.com/photos/3866555/pexels-photo-3866555.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+                        <Avatar alt={user.name} sx={{ width: 30, height: 30 }} />
                     </Tooltip>
                 </Box>
             </CardContent>

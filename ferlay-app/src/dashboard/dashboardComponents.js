@@ -216,7 +216,7 @@ export const DrawerSide = ({open, handleDrawerClose, session}) => {
                             direction='column'
                             spacing={2}
                         >
-                            <Button variant='contained' sx={{ borderRadius: 5 }} onClick={handleOpenAddUser}>Ajouter un étudiant</Button>
+                            {/* <Button variant='contained' sx={{ borderRadius: 5 }} onClick={handleOpenAddUser}>Ajouter un étudiant</Button> */}
                             <Button variant='contained' sx={{ borderRadius: 5 }} onClick={handleOpenAddDoc}>Créer un document</Button>
                         </Stack>
                     )

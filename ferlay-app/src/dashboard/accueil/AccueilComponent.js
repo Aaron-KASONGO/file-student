@@ -58,7 +58,7 @@ const DossierListComponent = withListeHoc(DossierList, async({data}) => {
   const result = await getRecentDossier();
   
   const finalData = result.map((item) => ({
-    name: `${item.nom} ${item.postnom} ${item.prenom}`,
+    name: `${item.nom} ${item.postnom} ${item.prenom}(${item.etudiant})`,
     isLocked: item.is_locked ? 'locked': 'unlocked',
     id: item.id
   }))
