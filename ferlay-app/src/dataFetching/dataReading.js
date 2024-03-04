@@ -185,3 +185,19 @@ export const getAllDemande = async () => {
         return data;
     }  
 }
+
+export const getDemandeByDossier = async (idDossier) => {
+    let { data, error } = await supabase
+    .from('Demande')
+    .select('*')
+    .eq('dossier', idDossier)
+    
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    if (data) {
+        return data;
+    }  
+}

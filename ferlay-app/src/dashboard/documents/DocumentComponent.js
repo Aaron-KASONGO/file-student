@@ -1,5 +1,5 @@
 import { Box, Grid } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CardDocument } from '../../components/CardDocument'
 import { TitleTypography } from '../../components/commonComponents'
 import { withListeHoc } from '../../components/HOCs/withListeHoc'
@@ -22,29 +22,43 @@ export const DocumentList = ({data, openRightDrawer, setOpenRightDrawer}) => {
   )
 }
 
-const DocumentListComponent = withListeHoc(DocumentList, async({data}) => {
-  const result = await getAllDocument();
-  const finalData = result.map((item) => ({
-    title: item.nom_document,
-    type: item.extension ? item.extension : 'text',
-    user: {
-      name: item.Dossier.etudiant
-    },
-    id: item.id
-  }))
-  return finalData;
-})
+
 
 export const DocumentComponent = () => {
   const [openRightDrawer, setOpenRightDrawer] = useOutletContext();
+  const [component, setComponent] = useState({
+    component: null
+  });
+
+  const loadDocumentListComponent = () => {
+    const DocumentListComponent = withListeHoc(DocumentList, async({data}) => {
+      const result = await getAllDocument();
+      const finalData = result.map((item) => ({
+        title: item.nom_document,
+        type: item.extension ? item.extension : 'text',
+        user: {
+          name: item.Dossier.etudiant
+        },
+        id: item.id
+      }))
+      return finalData;
+    })
+
+    setComponent({
+      component: <DocumentListComponent openRightDrawer={openRightDrawer} setOpenRightDrawer={setOpenRightDrawer} />
+    })
+  }
 
   useEffect(() => {
+    loadDocumentListComponent();
   }, [openRightDrawer]);
   return (
     <>
       <TitleTypography>Documents</TitleTypography>
       <Grid container spacing={2} mb={2}>
-        <DocumentListComponent openRightDrawer={openRightDrawer} setOpenRightDrawer={setOpenRightDrawer} />
+        {
+          component?.component
+        }
       </Grid>
     </>
   )

@@ -7,6 +7,7 @@ import { DocumentLisUser } from './documentlist/DocumentLisUser'
 import { withListeNotAsyncHoc } from '../components/HOCs/withListeNotAsyncHoc'
 import { createDemand } from '../dataFetching/dataCreating'
 import { supabase } from '../config/supabaseClient'
+import { Outlet, useOutletContext } from 'react-router-dom'
 
 const DocumentUser = withListeNotAsyncHoc(DocumentLisUser, ({data, search}) => {
     // console.log(search)
@@ -66,6 +67,15 @@ export const Utilisateur = () => {
     return (
         <Stack spacing={4}>
             <Navbar dossier={dossier} setOpenModal={setOpenModal} />
+            <Outlet context={{search, setSearch, documents, openModal, setOpenModal, onSubmitDemand, dossier}} />
+        </Stack>
+  )
+}
+
+export const DocumentUserMain = () => {
+    const {search, setSearch, documents, openModal, setOpenModal, onSubmitDemand} = useOutletContext();
+    return (
+        <>
             <Box
                 display={'flex'}
                 justifyContent={'center'}
@@ -102,8 +112,8 @@ export const Utilisateur = () => {
                     </CardActions>
                 </Card>
             </Modal>
-        </Stack>
-  )
+        </>
+    )
 }
 
 const style = {

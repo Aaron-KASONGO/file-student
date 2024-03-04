@@ -21,7 +21,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 import { Autocomplete, Avatar, Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, Stack, TextField, Typography, useTheme } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { getAllDossier } from '../dataFetching/dataReading';
 import { createDocument } from '../dataFetching/dataCreating';
 import { supabase } from '../config/supabaseClient';
@@ -79,6 +79,7 @@ export const DrawerSide = ({open, handleDrawerClose, session}) => {
     const theme = useTheme();
     const [openAddUser, setOpenAddUser] = useState(false);
     const [openAddDoc, setOpenAddDoc] = useState(false);
+    const navigate = useNavigate();
 
     const handleCloseAddUser = () => {
         setOpenAddUser(false);
@@ -187,7 +188,10 @@ export const DrawerSide = ({open, handleDrawerClose, session}) => {
                             justifyContent: open ? 'initial' : 'center',
                             px: 2.5,
                             }}
-                            onClick={() => supabase.auth.signOut()}
+                            onClick={() => {
+                                supabase.auth.signOut();
+                                navigate('/')
+                            }}
                         >
                             <ListItemIcon
                             sx={{

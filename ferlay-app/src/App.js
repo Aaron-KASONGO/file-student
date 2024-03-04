@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 import { AccueilComponent } from "./dashboard/accueil/AccueilComponent";
 import Dashboard from "./dashboard/dashbaord";
 import { DemandeComponent } from "./dashboard/demandes/DemandeComponent";
@@ -8,9 +8,10 @@ import { EtudiantComponent } from "./dashboard/etudiants/EtudiantComponent";
 import { HistoriqueComponent } from "./dashboard/historique/HistoriqueComponent";
 import { useEffect, useState } from "react";
 import { ConnexionPage } from "./connexion/ConnexionPage";
-import { Utilisateur } from "./utilisateur/Utilisateur";
+import { DocumentUserMain, Utilisateur } from "./utilisateur/Utilisateur";
 import { supabase } from "./config/supabaseClient";
 import { OpenDossier } from "./dashboard/open-dossier/OpenDossier";
+import { DemandeList } from "./utilisateur/demandes/DemandeList";
 
 
 function App() {
@@ -46,7 +47,10 @@ function App() {
                 </Route>
               ):
               (
-                <Route path='/' element={<Utilisateur />} />
+                <Route path='/' element={<Utilisateur />}>
+                  <Route index element={<DocumentUserMain />} />
+                  <Route path='/demandes' element={<DemandeList />} />
+                </Route>
               )
             ):
             (
@@ -58,6 +62,12 @@ function App() {
       </Router>
     </>
   );
+}
+
+const Layout = () => {
+  return(
+    <Outlet />
+  )
 }
 
 export default App;

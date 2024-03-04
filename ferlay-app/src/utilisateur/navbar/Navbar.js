@@ -1,11 +1,14 @@
-import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
+import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from '@mui/material'
 import React from 'react'
 import { supabase } from '../../config/supabaseClient';
+import { DocumentScanner } from '@mui/icons-material';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export const Navbar = ({dossier, setOpenModal}) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    const navigate = useNavigate();
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -17,6 +20,7 @@ export const Navbar = ({dossier, setOpenModal}) => {
 
     const logOut = () => {
         supabase.auth.signOut();
+        navigate('/');
     }
 
     return (
@@ -30,15 +34,26 @@ export const Navbar = ({dossier, setOpenModal}) => {
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            
+            <DocumentScanner />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+          <Typography variant="body1" component="div" sx={{ flexGrow: 1 }}>
+            Document ESIS
           </Typography>
           <IconButton
             onClick={handleClick}
           >
-            <Avatar alt='utilisateur' />
+            <Stack
+              direction={'row'}
+              spacing={1}
+            >
+              <Avatar alt='utilisateur' />
+              <Stack
+                alignItems={'start'}
+              >
+                <Typography variant='body2' color={'white'} fontWeight={'bold'}>{dossier.nom} {dossier.postnom} {dossier.prenom}</Typography>
+                <Typography variant='caption' color={'white'}>Étudiant</Typography>
+              </Stack>
+            </Stack>
           </IconButton>
           <Menu
                 id="basic-menu"
@@ -51,7 +66,8 @@ export const Navbar = ({dossier, setOpenModal}) => {
             >
                 <MenuItem><Typography variant='body1' fontWeight={'bold'}>{dossier.nom} {dossier.postnom} {dossier.prenom}</Typography></MenuItem>
                 <MenuItem onClick={() => setOpenModal(true)}>Faire une demande</MenuItem>
-                <MenuItem onClick={logOut}>Logout</MenuItem>
+                <MenuItem><Link to={'/demandes'} style={{ textDecoration: 'none'}} reloadDocument><Typography color={'black'}>Mes demandes</Typography></Link></MenuItem>
+                <MenuItem onClick={logOut}>Se déconnecter</MenuItem>
             </Menu>
         </Toolbar>
       </AppBar>

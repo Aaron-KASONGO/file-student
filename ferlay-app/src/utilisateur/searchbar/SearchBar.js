@@ -13,8 +13,8 @@ export const SearchBar = ({search, setSearch}) => {
       </IconButton> */}
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder="Search Google Maps"
-        inputProps={{ 'aria-label': 'search google maps' }}
+        placeholder="Recherche(matricule)"
+        inputProps={{ 'aria-label': 'Recherche(matricule)' }}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />

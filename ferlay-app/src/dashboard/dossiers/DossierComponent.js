@@ -26,31 +26,38 @@ export const DossierList = ({data, openRightDrawer, setOpenRightDrawer}) => {
 
 
 
-const DossierListComponent = withListeHoc(DossierList, async({data, search}) => {
-  const result = await getDossierByName(search);
-  alert("passé")
-  const finalData = result.map((item) => ({
-    name: `${item.nom} ${item.postnom} ${item.prenom}(${item.etudiant})`,
-    isLocked: item.is_locked ? 'locked': 'unlocked',
-    id: item.id
-  }))
-  return finalData;
-})
+
 
 
 export const DossierComponent = () => {
   const [openRightDrawer, setOpenRightDrawer] = useOutletContext();
   const [search, setSearch] = useState('');
   const [handleSearch, setHandleSearch] = useState(false);
+  const [componentDossier, setComponentDossier] = useState({component: null});
+
+  const loadDossierList = () => {
+    const DossierListComponent = withListeHoc(DossierList, async({data, search}) => {
+      const result = await getDossierByName(search);
+      const finalData = result.map((item) => ({
+        name: `${item.nom} ${item.postnom} ${item.prenom}(${item.etudiant})`,
+        isLocked: item.is_locked ? 'locked': 'unlocked',
+        id: item.id
+      }))
+      return finalData;
+    })
+    setComponentDossier({
+      component: <DossierListComponent search={search} openRightDrawer={openRightDrawer} setOpenRightDrawer={setOpenRightDrawer} />
+    })
+  }
 
   useEffect(() => {
-    setHandleSearch(false);
-    return () => {
-      setHandleSearch(true);
-    }
+    loadDossierList();
   }, [search])
   return (
     <>
+    <Stack
+      spacing={1}
+    >
       <Stack 
         direction={'row'}
         justifyContent={'space-between'}
@@ -60,15 +67,10 @@ export const DossierComponent = () => {
       </Stack>
       <Grid container spacing={2} mb={2}>
         {
-          handleSearch ?
-          (
-            <></>
-          ):
-          (
-            <DossierListComponent search={search} openRightDrawer={openRightDrawer} setOpenRightDrawer={setOpenRightDrawer} />
-          )
+          componentDossier.component
         }
       </Grid>
+    </Stack>
     </>
   )
 }
