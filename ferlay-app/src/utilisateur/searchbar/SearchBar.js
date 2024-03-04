@@ -18,7 +18,7 @@ export const SearchBar = ({search, setSearch}) => {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-      <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+      <IconButton type="reset" sx={{ p: '10px' }} aria-label="search">
         <SearchIcon />
       </IconButton>
     </Paper>

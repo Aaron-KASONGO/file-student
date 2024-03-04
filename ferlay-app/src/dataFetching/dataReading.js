@@ -17,7 +17,26 @@ export const getAllDossier = async () => {
     if (data) {
         return data;
     }
-        
+}
+
+export const getDossierByName = async (search) => {
+
+    let { data, error } = await supabase
+        .from('Dossier')
+        .select('*')
+        .like('etudiant', `%${search}%`)
+        // .in('prenom', search)
+        // .in('nom', search)
+        // .in('postnom', search)
+    
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    if (data) {
+        return data;
+    }
 }
 
 export const getRecentDossier = async () => {

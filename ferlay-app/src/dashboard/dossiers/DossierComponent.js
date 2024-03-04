@@ -1,11 +1,12 @@
-import { Box, Grid } from '@mui/material'
-import React from 'react'
+import { Box, Grid, Stack } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import { CardDossier } from '../../components/CardDossier'
 import { TitleTypography } from '../../components/commonComponents'
 import { dataDossiers } from '../accueil/AccueilComponent'
 import { withListeHoc } from '../../components/HOCs/withListeHoc'
-import { getAllDossier } from '../../dataFetching/dataReading'
+import { getAllDossier, getDossierByName } from '../../dataFetching/dataReading'
 import { useOutletContext } from 'react-router-dom'
+import { SearchBar } from '../../utilisateur/searchbar/SearchBar'
 
 export const DossierList = ({data, openRightDrawer, setOpenRightDrawer}) => {
   return (
@@ -25,9 +26,9 @@ export const DossierList = ({data, openRightDrawer, setOpenRightDrawer}) => {
 
 
 
-const DossierListComponent = withListeHoc(DossierList, async({data}) => {
-  const result = await getAllDossier();
-  
+const DossierListComponent = withListeHoc(DossierList, async({data, search}) => {
+  const result = await getDossierByName(search);
+  alert("passé")
   const finalData = result.map((item) => ({
     name: `${item.nom} ${item.postnom} ${item.prenom}(${item.etudiant})`,
     isLocked: item.is_locked ? 'locked': 'unlocked',
@@ -39,11 +40,34 @@ const DossierListComponent = withListeHoc(DossierList, async({data}) => {
 
 export const DossierComponent = () => {
   const [openRightDrawer, setOpenRightDrawer] = useOutletContext();
+  const [search, setSearch] = useState('');
+  const [handleSearch, setHandleSearch] = useState(false);
+
+  useEffect(() => {
+    setHandleSearch(false);
+    return () => {
+      setHandleSearch(true);
+    }
+  }, [search])
   return (
     <>
-      <TitleTypography>Dossiers</TitleTypography>
+      <Stack 
+        direction={'row'}
+        justifyContent={'space-between'}
+      >
+        <TitleTypography>Dossiers</TitleTypography>
+        <SearchBar search={search} setSearch={setSearch} />
+      </Stack>
       <Grid container spacing={2} mb={2}>
-        <DossierListComponent openRightDrawer={openRightDrawer} setOpenRightDrawer={setOpenRightDrawer} />
+        {
+          handleSearch ?
+          (
+            <></>
+          ):
+          (
+            <DossierListComponent search={search} openRightDrawer={openRightDrawer} setOpenRightDrawer={setOpenRightDrawer} />
+          )
+        }
       </Grid>
     </>
   )
