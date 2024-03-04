@@ -173,7 +173,7 @@ export const getDocumentByDossier = async (dossierId) => {
 export const getAllDemande = async () => {
     let { data, error } = await supabase
     .from('Demande')
-    .select('id, content, Dossier(id, etudiant, nom, prenom)')
+    .select('id, content, viewed, Dossier(id, etudiant, nom, prenom)')
     .order("created_at", { ascending: false })
     
     if (error) {

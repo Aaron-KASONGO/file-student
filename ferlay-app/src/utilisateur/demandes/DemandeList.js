@@ -2,7 +2,7 @@ import { Button, Card, CardActions, CardContent, CardHeader, Container, Modal, S
 import React, { useEffect, useState } from 'react'
 import { Navbar } from '../navbar/Navbar'
 import { useOutletContext } from 'react-router-dom';
-import { getDemandeByDossier } from '../../dataFetching/dataReading';
+import { getAllDemande, getDemandeByDossier } from '../../dataFetching/dataReading';
 
 export const DemandeList = () => {
     const [demandes, setDemandes] = useState([]);
@@ -11,13 +11,14 @@ export const DemandeList = () => {
     const loadDemandes = async () => {
         const data = await getDemandeByDossier(dossier.id);
         if (data) {
-            console.log(demandes)
-            setDemandes(demandes);
+            setDemandes(data);
         }
     }
 
     useEffect(() => {
-        loadDemandes();
+        if (dossier.id) {
+            loadDemandes();
+        }
     }, [dossier]);
   return (
     <Stack>
@@ -28,7 +29,7 @@ export const DemandeList = () => {
                 {
                     demandes.map((item) => (
                         <Card key={item.id}>
-                          <CardHeader subheader={`Non validé`} />
+                          <CardHeader subheader={item.viewed ? 'Validé': 'Non validé'} />
                           <CardContent>
                           {item.content}
                           </CardContent>

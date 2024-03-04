@@ -38,3 +38,20 @@ export const UpdateDossiertById = async (email, nom , postnom, prenom, id) => {
         return data;
     }
 }
+
+export const UpdateDemandeById = async (idDemande, viewed) => {
+    const { data, error } = await supabase
+        .from('Demande')
+        .update({ viewed: viewed })
+        .eq('id', idDemande)
+        .select()
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    if (data) {
+        return data;
+    }
+}
