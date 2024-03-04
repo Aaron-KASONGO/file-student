@@ -1,12 +1,12 @@
 import { supabase } from "../config/supabaseClient";
 
 
-export const createDocument = async ({nomDocument, idDossier, docRef, extension}) => {
+export const createDocument = async ({nomDocument, idDossier, docRef, extension, type}) => {
     
     const { data, error } = await supabase
         .from('Document')
         .insert([
-        { nom_document: nomDocument, dossier : idDossier, doc_ref: docRef, extension: extension },
+        { nom_document: nomDocument, dossier : idDossier, doc_ref: docRef, extension: extension, type: type },
         ])
         .select()
 

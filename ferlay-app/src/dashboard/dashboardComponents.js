@@ -236,6 +236,7 @@ export const DrawerSide = ({open, handleDrawerClose, session}) => {
 const AddDocumentDialog = ({open, handleClose}) => {
     const [dossiers, setDossiers] = useState([]);
     const [selectedValue, setSelectedValue] = useState();
+    const [selectedDocumentType, setSelectedDocumentType] = useState(null);
 
     const fileRef = useRef()
 
@@ -249,15 +250,16 @@ const AddDocumentDialog = ({open, handleClose}) => {
         if (file) {
             const { data, error } = await supabase.storage
                 .from('documents')
-                .upload(`docs/${form.nom_document.value}_${date.getMilliseconds()}`, file)
+                .upload(`docs/${Date.now()}_${date.getMilliseconds()}`, file)
 
             if (data) {
                 console.log(data)
                 const docData = {
-                    nomDocument: form.nom_document.value,
+                    nomDocument: `${form.nom_document.value} - ${Date.now()}`,
                     idDossier: selectedValue.id,
                     docRef: data.path,
-                    extension: file.name.split('.').pop()
+                    extension: file.name.split('.').pop(),
+                    type: selectedDocumentType
                 };
                 alert(file.name.split('.').pop())
                 createDocument(docData);
@@ -294,11 +296,31 @@ const AddDocumentDialog = ({open, handleClose}) => {
                 component="form"
                 onSubmit={handleSubmit}
             >
-                <DialogTitle>Ajouter Étudiant</DialogTitle>
+                <DialogTitle>Ajouter Document</DialogTitle>
                 <DialogContent>
                     <Stack
                         spacing={2}
                     >
+                        <Autocomplete
+                            // value={selectedValue}
+                            onChange={(event, newValue) => {
+                                setSelectedValue(newValue);
+                            }}
+                            disablePortal
+                            id="combo-box-demo"
+                            options={dossiers}
+                            renderInput={(params) => <TextField required {...params} label="Dossier" fullWidth />}
+                        />
+                        <Autocomplete
+                            // value={selectedValue}
+                            onChange={(event, newValue) => {
+                                setSelectedDocumentType(newValue.label);
+                            }}
+                            disablePortal
+                            id="combo-box-demo"
+                            options={documentType}
+                            renderInput={(params) => <TextField required {...params} label="Type de document" fullWidth />}
+                        />
                         <TextField
                             required
                             name="nom_document"
@@ -313,18 +335,8 @@ const AddDocumentDialog = ({open, handleClose}) => {
                             type="text"
                             fullWidth
                         /> */}
-                        <Autocomplete
-                            // value={selectedValue}
-                            onChange={(event, newValue) => {
-                                setSelectedValue(newValue);
-                            }}
-                            disablePortal
-                            id="combo-box-demo"
-                            options={dossiers}
-                            renderInput={(params) => <TextField required {...params} label="Dossier" fullWidth />}
-                        />
                         <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                            Upload file
+                            Ajouter un fichier
                             <VisuallyHiddenInput ref={fileRef} required type="file" />
                         </Button>
 
@@ -486,3 +498,50 @@ const VisuallyHiddenInput = styled('input')({
     whiteSpace: 'nowrap',
     width: 1,
   });
+
+const documentType = [
+    {
+        id: 1,
+        label: "Bulletin de 5ème",
+    },
+    {
+        id: 2,
+        label: "Bulletin de 6ème",
+    },
+    {
+        id: 3,
+        label: "Diplôme d'état",
+    },
+    {
+        id: 4,
+        label: "Relevé L1",
+    },
+    {
+        id: 5,
+        label: "Relevé L2",
+    },
+    {
+        id: 6,
+        label: "Relevé L3",
+    },
+    {
+        id: 7,
+        label: "Relevé L4",
+    },
+    {
+        id: 8,
+        label: "Carte d'identité",
+    },
+    {
+        id: 9,
+        label: "Attestation de bonne vie et moeurs",
+    },
+    {
+        id: 10,
+        label: "Attestation d'aptitude physique",
+    },
+    {
+        id: 11,
+        label: "Attestation de fréquentation académique",
+    }
+]
