@@ -89,7 +89,7 @@ export default function Dashboard() {
       <Drawer
             anchor={'right'}
             open={openRightDrawer.statue}
-            onClose={() => setOpenRightDrawer({...openRightDrawer, statue: false})}
+            onClose={() => setOpenRightDrawer({statue: false, element: null, id: null})}
           >
             <Box width={300}>
               {

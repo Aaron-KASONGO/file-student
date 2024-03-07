@@ -241,11 +241,13 @@ const AddDocumentDialog = ({open, handleClose}) => {
     const [dossiers, setDossiers] = useState([]);
     const [selectedValue, setSelectedValue] = useState();
     const [selectedDocumentType, setSelectedDocumentType] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const fileRef = useRef()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const form = e.target;
         const date = new Date();
 
@@ -259,14 +261,15 @@ const AddDocumentDialog = ({open, handleClose}) => {
             if (data) {
                 console.log(data)
                 const docData = {
-                    nomDocument: `${form.nom_document.value} - ${Date.now()}`,
+                    nomDocument: `${selectedDocumentType} - ${Date.now()}`,
                     idDossier: selectedValue.id,
                     docRef: data.path,
                     extension: file.name.split('.').pop(),
                     type: selectedDocumentType
                 };
-                alert(file.name.split('.').pop())
+                // alert(file.name.split('.').pop())
                 createDocument(docData);
+                setLoading(false);
             }
             if (error) {
                 alert(error.message)
@@ -325,13 +328,13 @@ const AddDocumentDialog = ({open, handleClose}) => {
                             options={documentType}
                             renderInput={(params) => <TextField required {...params} label="Type de document" fullWidth />}
                         />
-                        <TextField
+                        {/* <TextField
                             required
                             name="nom_document"
                             label="Nom du document"
                             type="text"
                             fullWidth
-                        />
+                        /> */}
                         {/* <TextField
                             required
                             name="dossier"
@@ -348,8 +351,8 @@ const AddDocumentDialog = ({open, handleClose}) => {
                             direction='row'
                             spacing={1}
                         >
-                            <Button type='submit' variant='contained'>Créer</Button>
-                            <Button type='reset' onClick={() => handleClose()}  variant='contained' color='secondary'>Annuler</Button>
+                            <Button disabled={loading} type='submit' variant='contained'>Créer</Button>
+                            <Button disabled={loading} type='reset' onClick={() => handleClose()}  variant='contained' color='secondary'>Annuler</Button>
                         </Stack>
                     </Stack>
                 </DialogContent>

@@ -37,13 +37,13 @@ export const DocumentFormDrawerComponent = ({id, openRightDrawer, setOpenRightDr
     }
 
     const handleCloseDeleteModal = () => {
-        setDeleteModalOpen(false)
+        setDeleteModalOpen(false);
     }
 
     const updateDocument = async () => {
         const data = await UpdateDocumentById(nomDocument, id);
         if (data) {
-            setOpenRightDrawer(false);
+            setOpenRightDrawer({statue: false, element: null, id: null});
         }
     }
 
@@ -59,9 +59,7 @@ export const DocumentFormDrawerComponent = ({id, openRightDrawer, setOpenRightDr
     }
 
     useEffect(() => {
-        return () => {
-            fetchDocument();
-        };
+        fetchDocument();
     }, []);
 
   return (
@@ -93,7 +91,7 @@ export const DocumentFormDrawerComponent = ({id, openRightDrawer, setOpenRightDr
                     spacing={3}
                 >
                     <Button disabled={disabledModif} onClick={() => updateDocument()}>Modifier</Button>
-                    <Button color='error' onClick={() => setOpenRightDrawer({...openRightDrawer, statue: false})}>Annuler</Button>
+                    <Button color='error' onClick={() => setOpenRightDrawer({statue: false, element: null, id: null})}>Annuler</Button>
                 </Stack>
                 <Stack
                     direction={'row'}
