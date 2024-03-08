@@ -479,11 +479,11 @@ const drawerIcons = [
         icon: <SdCardAlertIcon />,
         url: '/demandes'
     },
-    // {
-    //     title: "Historique",
-    //     icon: <HistoryIcon />,
-    //     url: '/historique'
-    // }
+    {
+        title: "Rapport",
+        icon: <HistoryIcon />,
+        url: '/rapport'
+    }
 ]
 
 const drawerIconsDivider = [

@@ -42,7 +42,7 @@ function App() {
                   <Route path='dossiers' element={<DossierComponent />} />
                   <Route path='etudiants' element={<EtudiantComponent />} />
                   <Route path='demandes' element={<DemandeComponent />} />
-                  <Route path='historique' element={<HistoriqueComponent />} />
+                  <Route path='rapport' element={<HistoriqueComponent />} />
                   <Route path='dossiers/:idDossier' element={<OpenDossier />} />
                 </Route>
               ):
