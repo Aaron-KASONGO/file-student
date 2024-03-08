@@ -259,15 +259,14 @@ const AddDocumentDialog = ({open, handleClose}) => {
                 .upload(`docs/${Date.now()}_${date.getMilliseconds()}`, file)
 
             if (data) {
-                console.log(data)
                 const docData = {
-                    nomDocument: `${selectedDocumentType} - ${Date.now()}`,
+                    nomDocument: `${selectedDocumentType} - ${selectedValue.id}`,
                     idDossier: selectedValue.id,
                     docRef: data.path,
                     extension: file.name.split('.').pop(),
                     type: selectedDocumentType
                 };
-                // alert(file.name.split('.').pop())
+                // alert(file.name.split('.').pop())    
                 createDocument(docData);
                 setLoading(false);
             }
